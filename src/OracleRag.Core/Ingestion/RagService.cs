@@ -6,6 +6,8 @@ using OracleRag.Retrieval;
 
 namespace OracleRag.Ingestion;
 
+public sealed record IngestResult(WriteResult Write, int Chunks);
+
 public sealed record AskResult(Answer Answer, IReadOnlyList<SearchHit> Hits, double RetrievalMs);
 
 /// <summary>Chunk, embed and store on the way in; embed, search and answer on the way out.</summary>
@@ -25,7 +27,7 @@ public sealed class RagService(MarkdownChunker chunker, IEmbedder embedder, Extr
         return (new DocumentRecord(source.Id, source.Title, source.Source), chunks);
     }
 
-    public async Task<WriteResult> IngestAsync(IVectorStore store, SourceDocument source, string? expectedEtag, CancellationToken cancellationToken)
+    public async Task<IngestResult> IngestAsync(IVectorStore store, SourceDocument source, string? expectedEtag, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(store);
         using var activity = ActivitySource.StartActivity("rag.ingest");
@@ -33,7 +35,8 @@ public sealed class RagService(MarkdownChunker chunker, IEmbedder embedder, Extr
         activity?.SetTag("rag.document_id", source.Id);
         var (document, chunks) = Prepare(source);
         activity?.SetTag("rag.chunks", chunks.Count);
-        return await store.UpsertAsync(document, chunks, expectedEtag, cancellationToken);
+        var write = await store.UpsertAsync(document, chunks, expectedEtag, cancellationToken);
+        return new IngestResult(write, chunks.Count);
     }
 
     public async Task<IReadOnlyList<SearchHit>> SearchAsync(IVectorStore store, string question, int k, SearchMode mode, int? efSearch, int? probes, CancellationToken cancellationToken)
