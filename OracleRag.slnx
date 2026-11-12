@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OracleRag.Core/OracleRag.Core.csproj" />
+  </Folder>
+</Solution>
