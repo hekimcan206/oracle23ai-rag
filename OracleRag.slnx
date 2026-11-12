@@ -2,5 +2,6 @@
   <Folder Name="/src/">
     <Project Path="src/OracleRag.Core/OracleRag.Core.csproj" />
     <Project Path="src/OracleRag.Synthetic/OracleRag.Synthetic.csproj" />
+    <Project Path="src/OracleRag.Oracle/OracleRag.Oracle.csproj" />
   </Folder>
 </Solution>
