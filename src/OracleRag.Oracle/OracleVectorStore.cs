@@ -17,10 +17,13 @@ public sealed class OracleVectorStore : IVectorStore
 {
     private const int UniqueConstraintViolated = 1;
     private const int EtagMismatch = 42699;
+    private const int ConcurrentModification = 42698;
+    private const int MaxAttempts = 8;
 
     private readonly string _connectionString;
     private readonly string _owner;
     private readonly int _dimensions;
+    private long _concurrentRetries;
 
     /// <param name="connectionString">Usually the least-privileged application account.</param>
     /// <param name="schemaOwner">Owner of the tables; validated against an identifier allow-list.</param>
@@ -41,18 +44,36 @@ public sealed class OracleVectorStore : IVectorStore
         ValidateEmbeddings(chunks);
         var json = DocumentJson(document, chunks, expectedEtag);
 
+        // Duality-view updates are lock-free and optimistic: two sessions replacing the same document at the same
+        // time make one of them fail with ORA-42698 ("concurrent modification detected") instead of waiting on a row
+        // lock. A conditional write reports that as a conflict; an unconditional write ("last writer wins") retries
+        // the whole transaction a bounded number of times with jitter (measured and discussed in ADR 0002).
+        for (var attempt = 1; ; attempt++)
+        {
+            try
+            {
+                return await WriteOnceAsync(document, chunks, json, expectedEtag, cancellationToken);
+            }
+            catch (OracleException ex) when (ex.Number == EtagMismatch || (ex.Number == ConcurrentModification && expectedEtag is not null))
+            {
+                throw new EtagMismatchException(document.Id);
+            }
+            catch (OracleException ex) when (ex.Number == ConcurrentModification && attempt < MaxAttempts)
+            {
+                Interlocked.Increment(ref _concurrentRetries);
+                await Task.Delay(Random.Shared.Next(5, 20 * attempt), cancellationToken);
+            }
+        }
+    }
+
+    /// <summary>Unconditional writes that had to be retried after ORA-42698, since this instance was created.</summary>
+    public long ConcurrentRetries => Interlocked.Read(ref _concurrentRetries);
+
+    private async Task<WriteResult> WriteOnceAsync(DocumentRecord document, IReadOnlyList<ChunkRecord> chunks, string json, string? expectedEtag, CancellationToken cancellationToken)
+    {
         await using var connection = await OpenAsync(cancellationToken);
         await using var transaction = (OracleTransaction)await connection.BeginTransactionAsync(cancellationToken);
-        bool created;
-        try
-        {
-            created = await WriteDocumentAsync(connection, document.Id, json, expectedEtag, cancellationToken);
-        }
-        catch (OracleException ex) when (ex.Number == EtagMismatch)
-        {
-            throw new EtagMismatchException(document.Id);
-        }
-
+        var created = await WriteDocumentAsync(connection, document.Id, json, expectedEtag, cancellationToken);
         await SetEmbeddingsAsync(connection, chunks, cancellationToken);
         var etag = await ReadEtagAsync(connection, document.Id, cancellationToken)
             ?? throw new InvalidOperationException($"Document {document.Id} vanished inside its own transaction.");
