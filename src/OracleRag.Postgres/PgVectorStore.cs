@@ -19,6 +19,9 @@ public sealed class PgVectorStore(NpgsqlDataSource dataSource, int dimensions) :
     public static NpgsqlDataSource CreateDataSource(string connectionString)
     {
         var builder = new NpgsqlDataSourceBuilder(connectionString);
+        // Npgsql prefers GSS encryption by default and probes for libgssapi, which the chiseled image does not ship
+        // (it logs a native-loader error on every start). This service authenticates with passwords only.
+        builder.ConnectionStringBuilder.GssEncryptionMode = GssEncryptionMode.Disable;
         builder.UseVector();
         return builder.Build();
     }

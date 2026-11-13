@@ -1,0 +1,89 @@
+# `docker compose up` runs the whole demo with zero manual steps:
+#   oracle    -> Oracle AI Database 26ai Free (23.26); deploy/oracle/init sizes the vector pool, creates RAG_OWNER/RAG_APP
+#   postgres  -> PostgreSQL 17 + pgvector 0.8.1; deploy/postgres/init creates rag_owner/rag_app
+#   seed      -> same image as the API, `seed`: installs both schemas as the owners, writes the synthetic corpus into
+#                both stores (Oracle through the duality view), builds an HNSW index on each, exits
+#   api       -> serves both stores with the least-privileged application accounts
+# Then: http://localhost:18424/scalar   (all data synthetic)
+name: oracle23ai-rag
+
+x-api-image: &api-image
+  image: oracle23ai-rag:local
+  build:
+    context: .
+    dockerfile: Dockerfile
+
+x-connections: &connections
+  ConnectionStrings__OracleApp: Data Source=oracle:1521/FREEPDB1;User Id=rag_app;Password=${ORACLE_APP_PASSWORD:-AppDev1}
+  ConnectionStrings__PostgresApp: Host=postgres;Database=rag;Username=rag_app;Password=${PG_APP_PASSWORD:-AppDev1}
+
+services:
+  oracle:
+    image: gvenzl/oracle-free:23-slim-faststart
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:-sys-dev-only}
+      OWNER_PASSWORD: ${ORACLE_OWNER_PASSWORD:-OwnerDev1}
+      APP_PASSWORD: ${ORACLE_APP_PASSWORD:-AppDev1}
+      VECTOR_MEMORY_SIZE: 256M
+    ports:
+      - "127.0.0.1:${ORACLE_PORT:-15931}:1521"
+    volumes:
+      - ./deploy/oracle/init:/container-entrypoint-initdb.d:ro
+      - oradata:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 5s
+      timeout: 5s
+      retries: 90
+      start_period: 20s
+
+  postgres:
+    image: pgvector/pgvector:0.8.1-pg17
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres-dev-only}
+      POSTGRES_DB: rag
+      OWNER_PASSWORD: ${PG_OWNER_PASSWORD:-OwnerDev1}
+      APP_PASSWORD: ${PG_APP_PASSWORD:-AppDev1}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-15932}:5432"
+    volumes:
+      - ./deploy/postgres/init:/docker-entrypoint-initdb.d:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rag"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+
+  seed:
+    <<: *api-image
+    command: ["seed"]
+    environment:
+      <<: *connections
+      ConnectionStrings__OracleOwner: Data Source=oracle:1521/FREEPDB1;User Id=rag_owner;Password=${ORACLE_OWNER_PASSWORD:-OwnerDev1}
+      ConnectionStrings__PostgresOwner: Host=postgres;Database=rag;Username=rag_owner;Password=${PG_OWNER_PASSWORD:-OwnerDev1}
+    depends_on:
+      oracle:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    <<: *api-image
+    ports:
+      - "127.0.0.1:${API_PORT:-18424}:8080"
+    environment:
+      <<: *connections
+      OpenApi__Enabled: "true"
+      OTEL_SERVICE_NAME: oracle23ai-rag
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+    # No container HEALTHCHECK: the chiseled image has no shell or curl; probe /health/live and /health/ready.
+    restart: unless-stopped
+
+volumes:
+  oradata:
+  pgdata:
