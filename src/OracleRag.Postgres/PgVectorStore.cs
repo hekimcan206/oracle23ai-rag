@@ -163,9 +163,11 @@ public sealed class PgVectorStore(NpgsqlDataSource dataSource, int dimensions) :
     }
 
     /// <summary>
-    /// Exact search switches index scans off for the statement, so the planner has to scan and sort: that is the
-    /// ground truth. Approximate search must order by the distance expression alone (adding a tie-breaker would stop
-    /// the HNSW/IVF index from being usable), and the inner LIMIT keeps the join out of the index scan.
+    /// Exact search switches index scans off for the statement. That setting is load-bearing: a tie-breaker in
+    /// <c>ORDER BY</c> does not keep the HNSW index out, because the planner happily uses the index as the presorted key
+    /// of an Incremental Sort, and the "exact" query then returns approximate neighbours (shown by an integration test).
+    /// pgvector has no <c>FETCH EXACT</c>; exactness is a planner setting. Approximate search orders by the distance
+    /// expression alone, and the inner LIMIT keeps the join out of the index scan.
     /// </summary>
     internal static string SearchSql(SearchMode mode)
     {
