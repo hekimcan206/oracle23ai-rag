@@ -10,4 +10,7 @@
     <Project Path="tests/OracleRag.UnitTests/OracleRag.UnitTests.csproj" />
     <Project Path="tests/OracleRag.IntegrationTests/OracleRag.IntegrationTests.csproj" />
   </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/OracleRag.Benchmarks/OracleRag.Benchmarks.csproj" />
+  </Folder>
 </Solution>

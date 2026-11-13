@@ -1,0 +1,289 @@
+{
+  "When": "2026-11-13T12:20:43.5971945+00:00",
+  "Environment": {
+    "LogicalCpus": 16,
+    "Os": "Microsoft Windows 10.0.26200",
+    "Runtime": ".NET 10.0.12",
+    "Limits": "2 CPUs per database container (NanoCPUs)"
+  },
+  "Documents": 18500,
+  "Chunks": 49318,
+  "Dimensions": 384,
+  "Model": "lexproj-384-v1-5eed0a1c2026",
+  "Queries": 300,
+  "K": 10,
+  "Stores": [
+    {
+      "Name": "postgres",
+      "Version": "PostgreSQL 17 \u002B pgvector 0.8.1",
+      "ApiCreate": {
+        "Count": 300,
+        "P50Ms": 2.37165,
+        "P95Ms": 3.564
+      },
+      "ApiReplace": {
+        "Count": 300,
+        "P50Ms": 3.1984500000000002,
+        "P95Ms": 3.9228
+      },
+      "BulkSeconds": 1.7099451,
+      "BulkChunksPerSecond": 28841.861648072794,
+      "Builds": [
+        {
+          "Index": "HNSW m=16 efConstruction=64",
+          "Seconds": 6.3749844,
+          "SizeBytes": 101015552
+        },
+        {
+          "Index": "IVF partitions=222",
+          "Seconds": 0.8793498,
+          "SizeBytes": 81928192
+        }
+      ],
+      "Searches": [
+        {
+          "Config": "exact",
+          "Recall": 1,
+          "DistanceRecall": 1,
+          "Top1Agreement": 1,
+          "P50Ms": 23.92805,
+          "P95Ms": 28.0182,
+          "P99Ms": 33.8784
+        },
+        {
+          "Config": "HNSW ef_search=10",
+          "Recall": 0.7653333333333343,
+          "DistanceRecall": 0.7653333333333343,
+          "Top1Agreement": 0.74,
+          "P50Ms": 1.03,
+          "P95Ms": 1.4109,
+          "P99Ms": 1.6833
+        },
+        {
+          "Config": "HNSW ef_search=20",
+          "Recall": 0.8180000000000008,
+          "DistanceRecall": 0.8180000000000008,
+          "Top1Agreement": 0.7933333333333333,
+          "P50Ms": 1.1287,
+          "P95Ms": 1.6535,
+          "P99Ms": 2.1327
+        },
+        {
+          "Config": "HNSW ef_search=40",
+          "Recall": 0.850666666666667,
+          "DistanceRecall": 0.850666666666667,
+          "Top1Agreement": 0.8533333333333334,
+          "P50Ms": 1.44685,
+          "P95Ms": 2.4962,
+          "P99Ms": 3.1273
+        },
+        {
+          "Config": "HNSW ef_search=80",
+          "Recall": 0.8876666666666669,
+          "DistanceRecall": 0.8876666666666669,
+          "Top1Agreement": 0.8933333333333333,
+          "P50Ms": 1.63315,
+          "P95Ms": 2.7793,
+          "P99Ms": 3.0631
+        },
+        {
+          "Config": "HNSW ef_search=160",
+          "Recall": 0.9413333333333335,
+          "DistanceRecall": 0.9413333333333335,
+          "Top1Agreement": 0.9466666666666667,
+          "P50Ms": 1.96685,
+          "P95Ms": 3.3211,
+          "P99Ms": 4.0753
+        },
+        {
+          "Config": "IVF probes=1",
+          "Recall": 0.7060000000000001,
+          "DistanceRecall": 0.7060000000000001,
+          "Top1Agreement": 0.68,
+          "P50Ms": 0.80935,
+          "P95Ms": 1.1657,
+          "P99Ms": 1.2497
+        },
+        {
+          "Config": "IVF probes=4",
+          "Recall": 0.9536666666666669,
+          "DistanceRecall": 0.9536666666666669,
+          "Top1Agreement": 0.92,
+          "P50Ms": 1.17245,
+          "P95Ms": 2.2996,
+          "P99Ms": 2.6248
+        },
+        {
+          "Config": "IVF probes=16",
+          "Recall": 0.9996666666666666,
+          "DistanceRecall": 0.9996666666666666,
+          "Top1Agreement": 0.9966666666666667,
+          "P50Ms": 2.3145,
+          "P95Ms": 3.8728,
+          "P99Ms": 4.882
+        },
+        {
+          "Config": "IVF probes=64",
+          "Recall": 1,
+          "DistanceRecall": 1,
+          "Top1Agreement": 1,
+          "P50Ms": 7.02525,
+          "P95Ms": 10.7136,
+          "P99Ms": 12.3405
+        }
+      ],
+      "RagExact": {
+        "Mode": "Exact",
+        "Answerable": 274,
+        "HitAt1": 0.9452554744525548,
+        "Correct": 0.9598540145985401,
+        "Unanswerable": 26,
+        "Abstained": 0.7692307692307693
+      },
+      "RagHnswDefault": {
+        "Mode": "Approximate",
+        "Answerable": 274,
+        "HitAt1": 0.8211678832116789,
+        "Correct": 0.8284671532846716,
+        "Unanswerable": 26,
+        "Abstained": 0.7692307692307693
+      }
+    },
+    {
+      "Name": "oracle",
+      "Version": "Oracle AI Database 26ai Free 23.26.3",
+      "ApiCreate": {
+        "Count": 300,
+        "P50Ms": 5.35075,
+        "P95Ms": 7.5919
+      },
+      "ApiReplace": {
+        "Count": 300,
+        "P50Ms": 4.96575,
+        "P95Ms": 7.614
+      },
+      "BulkSeconds": 9.2570334,
+      "BulkChunksPerSecond": 5327.624722624421,
+      "Builds": [
+        {
+          "Index": "HNSW m=16 efConstruction=64",
+          "Seconds": 8.8259665,
+          "SizeBytes": 92602368
+        },
+        {
+          "Index": "IVF partitions=222",
+          "Seconds": 28.7602872,
+          "SizeBytes": 146472960
+        }
+      ],
+      "Searches": [
+        {
+          "Config": "exact",
+          "Recall": 1,
+          "DistanceRecall": 1,
+          "Top1Agreement": 1,
+          "P50Ms": 40.51455,
+          "P95Ms": 48.7214,
+          "P99Ms": 53.1371
+        },
+        {
+          "Config": "HNSW ef_search=10",
+          "Recall": 0.672333333333334,
+          "DistanceRecall": 0.672333333333334,
+          "Top1Agreement": 0.6233333333333333,
+          "P50Ms": 1.0747499999999999,
+          "P95Ms": 1.6382,
+          "P99Ms": 1.9132
+        },
+        {
+          "Config": "HNSW ef_search=20",
+          "Recall": 0.7760000000000009,
+          "DistanceRecall": 0.7760000000000009,
+          "Top1Agreement": 0.7433333333333333,
+          "P50Ms": 0.9359999999999999,
+          "P95Ms": 1.2671,
+          "P99Ms": 1.6941
+        },
+        {
+          "Config": "HNSW ef_search=40",
+          "Recall": 0.8226666666666673,
+          "DistanceRecall": 0.8226666666666673,
+          "Top1Agreement": 0.81,
+          "P50Ms": 1.0601,
+          "P95Ms": 1.5103,
+          "P99Ms": 1.749
+        },
+        {
+          "Config": "HNSW ef_search=80",
+          "Recall": 0.8490000000000003,
+          "DistanceRecall": 0.8490000000000003,
+          "Top1Agreement": 0.85,
+          "P50Ms": 1.217,
+          "P95Ms": 1.7274,
+          "P99Ms": 2.0861
+        },
+        {
+          "Config": "HNSW ef_search=160",
+          "Recall": 0.8843333333333335,
+          "DistanceRecall": 0.8843333333333335,
+          "Top1Agreement": 0.8833333333333333,
+          "P50Ms": 1.1848999999999998,
+          "P95Ms": 1.928,
+          "P99Ms": 2.4923
+        },
+        {
+          "Config": "IVF probes=1",
+          "Recall": 0.7123333333333338,
+          "DistanceRecall": 0.7123333333333338,
+          "Top1Agreement": 0.68,
+          "P50Ms": 1.50195,
+          "P95Ms": 2.054,
+          "P99Ms": 2.4763
+        },
+        {
+          "Config": "IVF probes=4",
+          "Recall": 0.9639999999999997,
+          "DistanceRecall": 0.9639999999999997,
+          "Top1Agreement": 0.94,
+          "P50Ms": 3.0163,
+          "P95Ms": 4.2508,
+          "P99Ms": 4.934
+        },
+        {
+          "Config": "IVF probes=16",
+          "Recall": 0.9990000000000001,
+          "DistanceRecall": 0.9990000000000001,
+          "Top1Agreement": 1,
+          "P50Ms": 5.615600000000001,
+          "P95Ms": 7.5295,
+          "P99Ms": 8.0431
+        },
+        {
+          "Config": "IVF probes=64",
+          "Recall": 1,
+          "DistanceRecall": 1,
+          "Top1Agreement": 1,
+          "P50Ms": 14.388950000000001,
+          "P95Ms": 17.7159,
+          "P99Ms": 20.8232
+        }
+      ],
+      "RagExact": {
+        "Mode": "Exact",
+        "Answerable": 274,
+        "HitAt1": 0.9452554744525548,
+        "Correct": 0.9598540145985401,
+        "Unanswerable": 26,
+        "Abstained": 0.7692307692307693
+      },
+      "RagHnswDefault": {
+        "Mode": "Approximate",
+        "Answerable": 274,
+        "HitAt1": 0.8759124087591241,
+        "Correct": 0.8868613138686131,
+        "Unanswerable": 26,
+        "Abstained": 0.7692307692307693
+      }
+    }
+  ]
+}

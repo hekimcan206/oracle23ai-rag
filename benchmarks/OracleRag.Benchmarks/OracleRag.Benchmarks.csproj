@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Testcontainers" />
+    <PackageReference Include="Testcontainers.Oracle" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OracleRag.Core\OracleRag.Core.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Synthetic\OracleRag.Synthetic.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Oracle\OracleRag.Oracle.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Postgres\OracleRag.Postgres.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\deploy\oracle\init\01-setup.sh" Link="init\oracle\01-setup.sh" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\deploy\postgres\init\01-setup.sh" Link="init\postgres\01-setup.sh" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
