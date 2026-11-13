@@ -13,4 +13,9 @@
     <EmbeddedResource Include="Sql\*.sql" LogicalName="OracleRag.Postgres.Sql.%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="OracleRag.UnitTests" />
+    <InternalsVisibleTo Include="OracleRag.IntegrationTests" />
+  </ItemGroup>
+
 </Project>

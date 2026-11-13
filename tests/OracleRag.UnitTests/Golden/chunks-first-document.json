@@ -1,0 +1,26 @@
+[
+  {
+    "id": "maviliman-physiotherapy-centre-visiting-hours#0000",
+    "ord": 0,
+    "heading": "Weekday visits",
+    "text": "Visitors are welcome between 12:00 and 21:00 on weekdays. Each patient may receive at most 4 visitors at the same time.",
+    "embeddingText": "Maviliman Physiotherapy Centre — Visiting Hours > Weekday visits\nVisitors are welcome between 12:00 and 21:00 on weekdays. Each patient may receive at most 4 visitors at the same time.",
+    "contentHash": "64bba85c3215ce0ba801a436c5fe0ad5fcebe9a7522d5fe0dfe1f5282a206dc8"
+  },
+  {
+    "id": "maviliman-physiotherapy-centre-visiting-hours#0001",
+    "ord": 1,
+    "heading": "Intensive care",
+    "text": "Intensive care visits are limited to 11 minutes and one visitor at a time. Visitors must wear the gown provided at the unit door.",
+    "embeddingText": "Maviliman Physiotherapy Centre — Visiting Hours > Intensive care\nIntensive care visits are limited to 11 minutes and one visitor at a time. Visitors must wear the gown provided at the unit door.",
+    "contentHash": "5687cd22f2799ee867b12e07cc9dbb1999c485624484a4c8c8a218c4725e7d25"
+  },
+  {
+    "id": "maviliman-physiotherapy-centre-visiting-hours#0002",
+    "ord": 2,
+    "heading": "Children",
+    "text": "Children under 12 may visit only together with an adult. Flowers and food from outside are not allowed in patient rooms.",
+    "embeddingText": "Maviliman Physiotherapy Centre — Visiting Hours > Children\nChildren under 12 may visit only together with an adult. Flowers and food from outside are not allowed in patient rooms.",
+    "contentHash": "b2642e9b2487b6e6d67f0da026de9b06a1a2c4aa828f1aa9c0b02b99e5d64354"
+  }
+]

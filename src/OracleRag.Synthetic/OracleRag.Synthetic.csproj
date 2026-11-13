@@ -4,4 +4,9 @@
     <ProjectReference Include="..\OracleRag.Core\OracleRag.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="OracleRag.UnitTests" />
+    <InternalsVisibleTo Include="OracleRag.IntegrationTests" />
+  </ItemGroup>
+
 </Project>

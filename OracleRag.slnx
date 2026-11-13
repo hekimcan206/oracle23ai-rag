@@ -6,4 +6,7 @@
     <Project Path="src/OracleRag.Postgres/OracleRag.Postgres.csproj" />
     <Project Path="src/OracleRag.Api/OracleRag.Api.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OracleRag.UnitTests/OracleRag.UnitTests.csproj" />
+  </Folder>
 </Solution>

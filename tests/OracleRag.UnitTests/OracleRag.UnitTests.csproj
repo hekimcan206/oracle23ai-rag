@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="FsCheck.Xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OracleRag.Core\OracleRag.Core.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Synthetic\OracleRag.Synthetic.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Oracle\OracleRag.Oracle.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Postgres\OracleRag.Postgres.csproj" />
+    <ProjectReference Include="..\..\src\OracleRag.Api\OracleRag.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Approval files: tests fail when chunker or generator output drifts from the committed JSON. -->
+    <None Include="Golden\*.json;Golden\*.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="AwesomeAssertions" />
+  </ItemGroup>
+
+</Project>

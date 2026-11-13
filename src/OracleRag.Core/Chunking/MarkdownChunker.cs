@@ -168,6 +168,6 @@ public sealed partial class MarkdownChunker(int maxChars = 700)
 
     // End of sentence: . ! ? followed by whitespace and an upper-case letter or a digit, unless the period ends a
     // short abbreviation such as "Dr." or "No.".
-    [GeneratedRegex(@"(?<!\b(?:Dr|Mr|Mrs|Ms|No|St|Prof|approx|e\.g|i\.e))(?<=[.!?])\s+(?=[A-ZİŞĞÜÖÇ0-9])")]
+    [GeneratedRegex(@"(?<!\b(?:Dr|Mr|Mrs|Ms|No|St|Prof|approx|e\.g|i\.e)\.)(?<=[.!?])\s+(?=[A-ZİŞĞÜÖÇ0-9])")]
     private static partial Regex SentenceBoundary();
 }

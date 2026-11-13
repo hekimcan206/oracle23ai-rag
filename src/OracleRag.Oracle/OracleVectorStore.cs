@@ -129,6 +129,8 @@ public sealed class OracleVectorStore : IVectorStore
     internal static string SearchSql(string owner, SearchQuery query)
     {
         string fetch;
+        // A secondary sort key would make the vector index unusable for FETCH APPROX; exact search breaks ties by id.
+        var order = query.Mode == SearchMode.Exact ? "dist, c.chunk_id" : "dist";
         if (query.Mode == SearchMode.Exact)
         {
             fetch = "FETCH EXACT FIRST :k ROWS ONLY";
@@ -157,7 +159,7 @@ public sealed class OracleVectorStore : IVectorStore
             FROM (
                 SELECT c.chunk_id, c.doc_id, c.ord, c.heading, c.body, VECTOR_DISTANCE(c.embedding, :q, COSINE) AS dist
                 FROM {owner}.rag_chunk c
-                ORDER BY dist, c.chunk_id
+                ORDER BY {order}
                 {fetch}
             ) t
             JOIN {owner}.rag_document d ON d.doc_id = t.doc_id

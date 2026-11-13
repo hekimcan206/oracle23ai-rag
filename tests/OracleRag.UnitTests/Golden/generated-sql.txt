@@ -1,0 +1,63 @@
+-- oracle exact search
+SELECT t.chunk_id, t.doc_id, t.ord, t.heading, t.body, d.title, t.dist
+FROM (
+    SELECT c.chunk_id, c.doc_id, c.ord, c.heading, c.body, VECTOR_DISTANCE(c.embedding, :q, COSINE) AS dist
+    FROM RAG_OWNER.rag_chunk c
+    ORDER BY dist, c.chunk_id
+    FETCH EXACT FIRST :k ROWS ONLY
+) t
+JOIN RAG_OWNER.rag_document d ON d.doc_id = t.doc_id
+ORDER BY t.dist, t.chunk_id
+
+-- oracle approximate search, HNSW ef 64
+SELECT t.chunk_id, t.doc_id, t.ord, t.heading, t.body, d.title, t.dist
+FROM (
+    SELECT c.chunk_id, c.doc_id, c.ord, c.heading, c.body, VECTOR_DISTANCE(c.embedding, :q, COSINE) AS dist
+    FROM RAG_OWNER.rag_chunk c
+    ORDER BY dist
+    FETCH APPROX FIRST 10 ROWS ONLY WITH TARGET ACCURACY PARAMETERS (EFSEARCH 64)
+) t
+JOIN RAG_OWNER.rag_document d ON d.doc_id = t.doc_id
+ORDER BY t.dist, t.chunk_id
+
+-- oracle HNSW index
+CREATE VECTOR INDEX RAG_CHUNK_VEC_IX ON rag_chunk (embedding)
+ORGANIZATION INMEMORY NEIGHBOR GRAPH
+DISTANCE COSINE
+PARAMETERS (TYPE HNSW, NEIGHBORS 16, EFCONSTRUCTION 64)
+
+-- oracle IVF index
+CREATE VECTOR INDEX RAG_CHUNK_VEC_IX ON rag_chunk (embedding)
+ORGANIZATION NEIGHBOR PARTITIONS
+DISTANCE COSINE
+PARAMETERS (TYPE IVF, NEIGHBOR PARTITIONS 64)
+
+-- postgres exact search
+SELECT t.chunk_id, t.doc_id, t.ord, t.heading, t.body, d.title, t.dist
+FROM (
+    SELECT c.chunk_id, c.doc_id, c.ord, c.heading, c.body, c.embedding <=> $1 AS dist
+    FROM rag.rag_chunk c
+    ORDER BY dist, c.chunk_id
+    LIMIT $2
+) t
+JOIN rag.rag_document d ON d.doc_id = t.doc_id
+ORDER BY t.dist, t.chunk_id
+
+-- postgres approximate search
+SELECT t.chunk_id, t.doc_id, t.ord, t.heading, t.body, d.title, t.dist
+FROM (
+    SELECT c.chunk_id, c.doc_id, c.ord, c.heading, c.body, c.embedding <=> $1 AS dist
+    FROM rag.rag_chunk c
+    ORDER BY c.embedding <=> $1
+    LIMIT $2
+) t
+JOIN rag.rag_document d ON d.doc_id = t.doc_id
+ORDER BY t.dist, t.chunk_id
+
+-- postgres HNSW index
+CREATE INDEX rag_chunk_vec_ix ON rag.rag_chunk USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64)
+
+-- postgres IVF index
+CREATE INDEX rag_chunk_vec_ix ON rag.rag_chunk USING ivfflat (embedding vector_cosine_ops) WITH (lists = 64)
+
+
