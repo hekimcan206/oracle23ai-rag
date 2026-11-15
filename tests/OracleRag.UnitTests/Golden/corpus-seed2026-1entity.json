@@ -4,31 +4,31 @@
       "id": "maviliman-physiotherapy-centre-visiting-hours",
       "title": "Maviliman Physiotherapy Centre — Visiting Hours",
       "source": "synthetic",
-      "markdown": "# Maviliman Physiotherapy Centre — Visiting Hours\r\n\r\n## Weekday visits\r\nVisitors are welcome between 12:00 and 21:00 on weekdays. Each patient may receive at most 4 visitors at the same time.\r\n\r\n## Intensive care\r\nIntensive care visits are limited to 11 minutes and one visitor at a time. Visitors must wear the gown provided at the unit door.\r\n\r\n## Children\r\nChildren under 12 may visit only together with an adult. Flowers and food from outside are not allowed in patient rooms.\n"
+      "markdown": "# Maviliman Physiotherapy Centre — Visiting Hours\n\n## Weekday visits\nVisitors are welcome between 12:00 and 21:00 on weekdays. Each patient may receive at most 4 visitors at the same time.\n\n## Intensive care\nIntensive care visits are limited to 11 minutes and one visitor at a time. Visitors must wear the gown provided at the unit door.\n\n## Children\nChildren under 12 may visit only together with an adult. Flowers and food from outside are not allowed in patient rooms.\n"
     },
     {
       "id": "maviliman-physiotherapy-centre-lab-results",
       "title": "Maviliman Physiotherapy Centre — Laboratory Results",
       "source": "synthetic",
-      "markdown": "# Maviliman Physiotherapy Centre — Laboratory Results\r\n\r\n## Turnaround times\r\nRoutine blood test results are ready within 9 hours. Culture results take up to 4 days.\r\n\r\n## Online access\r\nResults are published on the patient portal, protected by a 6-digit code sent by SMS. The code expires after 7 minutes.\r\n\r\n## Critical values\r\nCritical values are telephoned to the requesting physician within 39 minutes. Patients are not informed by SMS about critical values.\n"
+      "markdown": "# Maviliman Physiotherapy Centre — Laboratory Results\n\n## Turnaround times\nRoutine blood test results are ready within 9 hours. Culture results take up to 4 days.\n\n## Online access\nResults are published on the patient portal, protected by a 6-digit code sent by SMS. The code expires after 7 minutes.\n\n## Critical values\nCritical values are telephoned to the requesting physician within 39 minutes. Patients are not informed by SMS about critical values.\n"
     },
     {
       "id": "maviliman-physiotherapy-centre-appointments",
       "title": "Maviliman Physiotherapy Centre — Appointment Cancellation",
       "source": "synthetic",
-      "markdown": "# Maviliman Physiotherapy Centre — Appointment Cancellation\r\n\r\n## Notice period\r\nAppointments must be cancelled at least 39 hours in advance. Cancellations can be made by phone or on the patient portal.\r\n\r\n## Missed appointments\r\nAfter 2 missed appointments, online booking is suspended for 55 days. Emergency care is never refused because of missed appointments.\n"
+      "markdown": "# Maviliman Physiotherapy Centre — Appointment Cancellation\n\n## Notice period\nAppointments must be cancelled at least 39 hours in advance. Cancellations can be made by phone or on the patient portal.\n\n## Missed appointments\nAfter 2 missed appointments, online booking is suspended for 55 days. Emergency care is never refused because of missed appointments.\n"
     },
     {
       "id": "maviliman-physiotherapy-centre-fees",
       "title": "Maviliman Physiotherapy Centre — Fees and Payment",
       "source": "synthetic",
-      "markdown": "# Maviliman Physiotherapy Centre — Fees and Payment\r\n\r\n## Private examination\r\nA private examination costs 1.540 TL. The fee is paid at the registration desk before the examination.\r\n\r\n## Medical reports\r\nA medical report costs 760 TL and is issued within 3 working days.\r\n\r\n## Payment methods\r\nPayments are accepted by card and bank transfer. Card payments in up to 6 instalments are possible.\n"
+      "markdown": "# Maviliman Physiotherapy Centre — Fees and Payment\n\n## Private examination\nA private examination costs 1.540 TL. The fee is paid at the registration desk before the examination.\n\n## Medical reports\nA medical report costs 760 TL and is issued within 3 working days.\n\n## Payment methods\nPayments are accepted by card and bank transfer. Card payments in up to 6 instalments are possible.\n"
     },
     {
       "id": "maviliman-physiotherapy-centre-pharmacy",
       "title": "Maviliman Physiotherapy Centre — Pharmacy",
       "source": "synthetic",
-      "markdown": "# Maviliman Physiotherapy Centre — Pharmacy\r\n\r\n## Opening hours\r\nThe in-house pharmacy is open from 9:00 to 17:00 every day. It is closed on the first day of religious holidays.\r\n\r\n## Prescriptions\r\nElectronic prescriptions can be collected within 7 days of issue. A prescription number and an identity document are required.\n"
+      "markdown": "# Maviliman Physiotherapy Centre — Pharmacy\n\n## Opening hours\nThe in-house pharmacy is open from 9:00 to 17:00 every day. It is closed on the first day of religious holidays.\n\n## Prescriptions\nElectronic prescriptions can be collected within 7 days of issue. A prescription number and an identity document are required.\n"
     }
   ],
   "questions": [

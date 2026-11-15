@@ -133,13 +133,14 @@ public static class CorpusGenerator
                 }
 
                 var docId = $"{entitySlug}-{topic.Slug}";
-                var markdown = new StringBuilder().Append("# ").Append(entity).Append(" — ").AppendLine(topic.Title).AppendLine();
+                // '\n' rather than AppendLine: the corpus must be byte-identical on every operating system.
+                var markdown = new StringBuilder().Append("# ").Append(entity).Append(" — ").Append(topic.Title).Append("\n\n");
                 for (var s = 0; s < topic.Sections.Count; s++)
                 {
                     var section = topic.Sections[s];
                     facts.Clear();
                     var body = section.Body(facts);
-                    markdown.Append("## ").AppendLine(section.Heading).AppendLine(body).AppendLine();
+                    markdown.Append("## ").Append(section.Heading).Append('\n').Append(body).Append("\n\n");
                     foreach (var q in section.Questions)
                     {
                         questions.Add(new QaItem(
