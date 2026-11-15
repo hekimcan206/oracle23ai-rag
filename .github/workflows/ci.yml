@@ -107,7 +107,13 @@ jobs:
           restore-keys: nuget-${{ runner.os }}-
 
       # Testcontainers starts gvenzl/oracle-free:23-slim-faststart and pgvector/pgvector:0.8.1-pg17 on the runner's
-      # Docker engine; one shared contract suite runs against both.
+      # Docker engine; one shared contract suite runs against both. Pulling first keeps the two fixtures, which start in
+      # parallel, from racing on image downloads.
+      - name: Pull container images
+        run: |
+          docker pull gvenzl/oracle-free:23-slim-faststart
+          docker pull pgvector/pgvector:0.8.1-pg17
+
       - name: Integration tests
         run: >
           dotnet test --configuration Release

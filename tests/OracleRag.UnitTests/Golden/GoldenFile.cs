@@ -20,9 +20,10 @@ internal static class GoldenFile
     public static void Verify(string name, string actual, [CallerFilePath] string callerPath = "")
     {
         actual = actual.ReplaceLineEndings("\n");
-        var source = Path.Combine(SourceDirectory(callerPath), name);
         if (Environment.GetEnvironmentVariable("UPDATE_GOLDEN") == "1")
         {
+            // Resolved only when rewriting: deterministic CI builds map source paths to /_/, where no project file exists.
+            var source = Path.Combine(SourceDirectory(callerPath), name);
             File.WriteAllText(source, actual + "\n");
             return;
         }
