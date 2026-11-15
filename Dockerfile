@@ -17,9 +17,11 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 
 COPY .editorconfig ./
 COPY src/ src/
+# No --no-restore: the restore layer can come from the CI layer cache while the package cache mount is empty on a
+# fresh runner, so publish restores again (a no-op when the mount is warm).
 RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
     dotnet publish src/OracleRag.Api/OracleRag.Api.csproj \
-        --configuration Release --no-restore --output /app/publish -p:UseAppHost=false
+        --configuration Release --output /app/publish -p:UseAppHost=false
 
 # ---- runtime -----------------------------------------------------------------------------------------
 # Chiseled Ubuntu: no shell, no package manager, non-root "app" user (UID 1654).
